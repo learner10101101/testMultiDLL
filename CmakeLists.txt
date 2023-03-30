@@ -38,13 +38,16 @@ add_library(minusDLL SHARED "${MINUSDLLFILE}")
 set_target_properties(minusDLL PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "${TARGET_LIB_OUTPUT_PATH}")
 set_target_properties(minusDLL PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${TARGET_BIN_OUTPUT_PATH}")
 
+# 添加预处理宏XXX -DXXX
+#add_definitions(-DADDDLL_EXPORTS -DMINUSDLL_EXPORTS)# 所有项目都添加相同的预编译宏，具有全局性
+target_compile_definitions(addDLL PRIVATE ADDDLL_EXPORTS)# 给特定项目（PRIVATE）添加指定宏
+target_compile_definitions(minusDLL PRIVATE INUSDLL_EXPORTS)
+
 # 包含库文件目录，要在add_executable语句前才会生效
 ## 包含编译出来的库文件目录（lib输出目录下生成的Debug和Release）
 link_directories(${TARGET}  "${PROJECT_SOURCE_DIR}/lib/Debug")
 link_directories(${TARGET}  "${PROJECT_SOURCE_DIR}/lib/Release")
 
-# 添加预处理宏XXX -DXXX
-add_definitions(-DADDDLL_EXPORTS -DMINUSDLL_EXPORTS)
 
 # 输出exe文件
 add_executable(${TARGET} ${SOURCE})
