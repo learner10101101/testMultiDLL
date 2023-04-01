@@ -28,6 +28,8 @@ source_group("mathDll" FILES ${MATHFILES})
 # 包含头文件目录
 include_directories("${PROJECT_SOURCE_DIR}/include")
 include_directories("${PROJECT_SOURCE_DIR}/mathDll")
+include_directories("${PROJECT_SOURCE_DIR}/dependencies/gtest/include")
+
 
 # 创建动态库给主项目使用
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)# window系统生成动态库时同时生成lib文件需要该语句设置
@@ -47,6 +49,10 @@ target_compile_definitions(minusDLL PRIVATE INUSDLL_EXPORTS)
 ## 包含编译出来的库文件目录（lib输出目录下生成的Debug和Release）
 link_directories(${TARGET}  "${PROJECT_SOURCE_DIR}/lib/Debug")
 link_directories(${TARGET}  "${PROJECT_SOURCE_DIR}/lib/Release")
+link_directories(${TARGET}  "${PROJECT_SOURCE_DIR}/dependencies/gtest/lib/windows/x64/Debug")
+link_directories(${TARGET}  "${PROJECT_SOURCE_DIR}/dependencies/gtest/lib/windows/x64/Release")
+link_directories(${TARGET}  "${PROJECT_SOURCE_DIR}/dependencies/gtest/lib/windows/x86/Debug")
+link_directories(${TARGET}  "${PROJECT_SOURCE_DIR}/dependencies/gtest/lib/windows/x86/Release")
 
 
 # 输出exe文件
@@ -58,5 +64,7 @@ add_dependencies(${TARGET} addDLL minusDLL)
 # 链接库 #给所有配置进行链接库，debug和optimized可以表示所有配置
 target_link_libraries(${TARGET} debug addDLL.lib optimized addDLL.lib)
 target_link_libraries(${TARGET} debug minusDLL.lib optimized minusDLL.lib)
+target_link_libraries(${TARGET} debug gtestd.lib optimized gtest.lib)
+target_link_libraries(${TARGET} debug gtestd.lib optimized gtest_maind.lib)
 
 set_target_properties(${TARGET} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${TARGET_BIN_OUTPUT_PATH}")# .dll和.exe输出目录设置
