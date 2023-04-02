@@ -2,10 +2,26 @@
 #include "addDLL.h"
 #include "minusDLL.h"
 #include <gtest/gtest.h>
+#include <string>
+#include <windows.h>
 
-TEST(TestCaseName, TestName) {
+std::string GetModulePath()
+{
+    char path[MAX_PATH];
+    GetModuleFileName(NULL, path, MAX_PATH);
+    std::string::size_type pos = std::string(path).find_last_of("\\/");
+    return std::string(path).substr(0, pos);
+}
+
+
+TEST(TestCaseName, TestName1) {
   EXPECT_EQ(1, 1);
   EXPECT_TRUE(true);
+}
+
+TEST(TestCaseName, TestName2) {
+	EXPECT_EQ(0, 1);
+	EXPECT_TRUE(true);
 }
 
 int main(int argc, char** argv) 
@@ -17,8 +33,12 @@ int main(int argc, char** argv)
     std::cout << "add(2,3) == " << addResult << std::endl;
     std::cout << "minus(5,2) == " << minusResult << std::endl;
     std::cout << "minus(5.5f, 2.2f) " << minusResult2 << std::endl;
-    
 
-    ::testing::InitGoogleTest(&argc, argv);
+    std::string modulePath = GetModulePath();
+    std::string::size_type pos = modulePath.find("\\bin");
+    std::string path = std::string(modulePath).substr(0, pos);
+
+    testing::GTEST_FLAG(output) = std::string("xml:")+ path +"\\testRusultReport\\testRusult.xml";
+    testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();
 }
