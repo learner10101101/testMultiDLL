@@ -40,5 +40,9 @@ int main(int argc, char** argv)
 
     testing::GTEST_FLAG(output) = std::string("xml:")+ path +"\\testRusultReport\\testRusult.xml";
     testing::InitGoogleTest(&argc, argv);
-	  return RUN_ALL_TESTS();
+    RUN_ALL_TESTS();
+
+    std::cin.get();//等待任意键接受程序
+
+	  return 0;
 }
