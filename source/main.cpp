@@ -20,7 +20,7 @@ TEST(TestCaseName, TestName1) {
 }
 
 TEST(TestCaseName, TestName2) {
-	EXPECT_EQ(1, 1);
+	EXPECT_EQ(0, 1);
 	EXPECT_TRUE(true);
 }
 
@@ -41,7 +41,7 @@ int main(int argc, char** argv)
     testing::GTEST_FLAG(output) = std::string("xml:")+ path +"\\testRusultReport\\testRusult.xml";
     testing::InitGoogleTest(&argc, argv);
     int test = RUN_ALL_TESTS();
-    std::cout << "Gtest测试用例全部失败时，RUN_ALL_TESTS()函数返回值 == " << "test" << std::endl;
+    std::cout << "Gtest测试用例全部失败时，RUN_ALL_TESTS()函数返回值 == " << test << std::endl;
 
     // std::cin.get();//等待任意键接受程序
 
